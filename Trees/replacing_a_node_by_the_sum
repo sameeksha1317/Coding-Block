@@ -1,0 +1,66 @@
+
+import java.util.Scanner;
+
+public class replace_with_sum_of_greater_nodes {
+private class Node{
+	int data;
+	Node left;
+	Node right;
+	Node(int data,Node left,Node right){
+		this.data=data;
+		this.left=left;
+		this.right=right;
+	}
+}
+private Node root;
+private int size;
+public replace_with_sum_of_greater_nodes(int[] sa) {
+	this.root=this.construct(sa,0,sa.length-1);
+}
+private Node construct(int[] sa,int low, int hi) {
+	if(low>hi) {
+		return null;
+	}
+	int mid=(low+hi)/2;
+	Node rv=new Node(sa[mid], null, null);
+	this.size++;
+	rv.left=this.construct(sa, low, mid-1);
+	rv.right=this.construct(sa, mid+1, hi);
+	return rv;
+}
+public void modifyBST() {
+	int[] arr= {0};
+	this.modifyBST(this.root,arr);
+}
+private void modifyBST(Node node, int[] sum) {
+	if(node==null) {
+		return;
+	}
+	modifyBST(node.right,sum);
+	sum[0]+=node.data;
+	node.data=sum[0];
+	modifyBST(node.left,sum);	
+}
+public void preorder() {
+	pre_order(this.root);
+}
+private void pre_order(Node node) {
+	if(node==null) {
+		return;
+	}
+	System.out.print(node.data+" ");
+	pre_order(node.left);
+	pre_order(node.right);
+	}
+public static void main(String[] args) {
+	Scanner scan=new Scanner(System.in);
+	int n=scan.nextInt();
+	int[] arr=new int[n];
+	for(int i=0;i<n;i++) {
+		arr[i]=scan.nextInt();
+	}
+	replace_with_sum_of_greater_nodes b=new replace_with_sum_of_greater_nodes(arr);
+b.modifyBST();
+b.preorder();
+}
+}
