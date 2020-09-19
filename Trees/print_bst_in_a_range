@@ -1,0 +1,62 @@
+
+import java.util.*;
+
+public class print_bst_in_a_range {
+private class Node{
+	int data;
+	Node left;
+	Node right;
+}
+private static Node root;
+public print_bst_in_a_range(int[] in) {
+	this.root=construct(in, 0, in.length-1);
+}
+private Node construct(int[] in, int low, int high) {
+	if(low>high) {
+		return null;
+	}
+	int mid=(low+high)/2;
+	Node nn=new Node();
+	nn.data=in[mid];
+	nn.left = construct(in, low, mid-1);
+	nn.right=construct(in,mid+1,high);
+	return nn;
+}
+
+public static void printRange(int lr, int ur) {
+	printRangeP(root,lr,ur);
+}
+private static void printRangeP(Node node, int lo, int hi) {
+	if(node==null) {
+		return;
+	}
+	if(node.data<lo) {
+		printRangeP(node.right,lo,hi);
+	}else if(node.data>hi) {
+		printRangeP(node.left,lo,hi);
+	}else {
+		printRangeP(node.left,lo,hi);
+		System.out.println(node.data);
+		printRangeP(node.right,lo,hi);
+	}
+}
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		int test=scan.nextInt();
+		while(test-->0) {
+			int n=scan.nextInt();
+			int[] arr=new int[n];
+			for(int i=0;i<n;i++) {
+				arr[i]=scan.nextInt();
+			}
+			Arrays.sort(arr);
+			print_bst_in_a_range b=new print_bst_in_a_range(arr);
+	
+			int lr=scan.nextInt();
+			int ur=scan.nextInt();
+			printRange(lr,ur);
+		}
+
+	}
+
+}
